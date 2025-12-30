@@ -1,0 +1,16 @@
+services:
+  mssql-server:
+    image: lpoletto/mssql-adventureworks:2022
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=StrongPassw0rd123
+      - MSSQL_PID=Developer
+    ports:
+      - 1433:1433
+    volumes:
+      # Opcional: Persistencia de datos para que no restaure en cada reinicio del contenedor
+      - mssql_data_volume:/var/opt/mssql/data
+
+volumes:
+  mssql_data_volume:
