@@ -1,0 +1,54 @@
+services:
+  jupyter-pyspark:
+    image: jupyter/pyspark-notebook:2023-04-24
+    container_name: jupyter-pyspark
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - GRANT_SUDO=yes
+      - JUPYTER_TOKEN=dev
+    ports:
+      - 8888:8888
+    volumes:
+      # - ./work:/home/jovyan/work
+      - ./notebooks:/home/jovyan/notebooks
+      - ./data:/home/jovyan/data
+      - ./spark_jars:/opt/spark/jars
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8888/lab?token=dev"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+
+  mssql-server:
+    image: lpoletto/mssql-adventureworks-dw:2022
+    container_name: mssql
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_USER=${MSSQL_SA_USER}
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      - MSSQL_PID=Developer
+    ports:
+      - ${MSSQL_PORT}:1433
+    volumes:
+      # Opcional: Persistencia de datos para que no restaure en cada reinicio del contenedor
+      - mssql_data:/var/opt/mssql/data
+  
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - ${POSTGRES_PORT}:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  mssql_data:
+  postgres_data:
