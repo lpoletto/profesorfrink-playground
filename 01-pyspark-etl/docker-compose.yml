@@ -13,8 +13,8 @@ services:
       - 8888:8888
     volumes:
       # - ./work:/home/jovyan/work
+      # - ./data:/home/jovyan/data
       - ./notebooks:/home/jovyan/notebooks
-      - ./data:/home/jovyan/data
       - ./spark_jars:/opt/spark/jars
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8888/lab?token=dev"]
