@@ -86,7 +86,7 @@ def _get_race_results(**context):
                     raise ValueError("BUCKET_NAME no está configurado en las variables de entorno")
                 s3_client.create_bucket(bucket_name)
                 # Usar fecha en el nombre del objeto
-                object_name = f"race_results/{load_date}/race_results.json"
+                object_name = f"raw/race_results/{load_date}/race_results.json"
                 s3_client.upload_file(output_file, bucket_name, object_name)
                 print(f"Archivo subido exitosamente a s3://{bucket_name}/{object_name}")
                 
