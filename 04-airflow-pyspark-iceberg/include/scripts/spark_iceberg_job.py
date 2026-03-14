@@ -11,7 +11,7 @@ def main():
         .config("spark.sql.catalog.lakehouse.uri", "jdbc:postgresql://postgres-dw:5432/datawarehouse") \
         .config("spark.sql.catalog.lakehouse.jdbc.user", "dw_user") \
         .config("spark.sql.catalog.lakehouse.jdbc.password", "dw_password") \
-        .config("spark.sql.catalog.lakehouse.warehouse", "s3a://f1-data-lake/lakehouse/") \
+        .config("spark.sql.catalog.lakehouse.warehouse", "s3a://f1-data-lake/") \
         .getOrCreate()
     
     # Configuración de S3/MinIO
@@ -26,7 +26,7 @@ def main():
         # 1. Leer el CSV (Capa fuente)
         # df = spark.read.csv("/usr/local/airflow/include/sample.csv", header=True, inferSchema=True)
         # df = spark.read.csv("file:///usr/local/airflow/include/sample.csv", header=True, inferSchema=True)
-        input_path = "s3a://f1-data-lake/lakehouse/raw/circuits/*.csv"
+        input_path = "s3a://f1-data-lake/raw/circuits/*.csv"
         df = spark.read.csv(input_path, header=True, inferSchema=True)
         df.show(5)  # Mostrar las primeras filas para verificar la lectura
         
