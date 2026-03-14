@@ -8,7 +8,7 @@ with DAG(
     start_date=datetime(2026, 1, 1),
     schedule_interval=None,
     catchup=False,
-    tags=['spark', 'minio']
+    tags=['spark', 'minio', 'iceberg']
 ) as dag:
 
     submit_spark_job = SparkSubmitOperator(
