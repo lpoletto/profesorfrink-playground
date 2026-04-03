@@ -36,6 +36,7 @@ with DAG(
     dag_id="download_rocket_launches",
     start_date=airflow.utils.dates.days_ago(14), # fecha de inicio de la primera ejecución del dag
     schedule_interval="@daily", # Intervalo que deberia ejecutarse el dag
+    catchup=False,
 ):
     download_launches = BashOperator(
         task_id="download_launches",
